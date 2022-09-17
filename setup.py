@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="event-processing",
-    version="0.0.3",
+    version="0.0.4",
     author="Raul Ikeda",
     description="Simple Event Processing Library",
     long_description=long_description,
