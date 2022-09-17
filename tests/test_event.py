@@ -8,5 +8,5 @@ def test_constructor():
 
     assert event.topic == 'a'
     assert event.timestamp == now
-    assert event.description == 'b'
+    assert event.partition == 'b'
     assert event.value == 1
