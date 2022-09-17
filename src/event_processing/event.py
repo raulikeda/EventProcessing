@@ -1,8 +1,8 @@
 class Event:
 
-    def __init__(self, topic, timestamp, description, value):
+    def __init__(self, topic, timestamp, partition, value):
 
         self.topic = topic
         self.timestamp = timestamp
-        self.description = description
+        self.partition = partition
         self.value = value
