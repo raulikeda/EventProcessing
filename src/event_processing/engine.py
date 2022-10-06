@@ -11,7 +11,7 @@ class Engine:
 
         # Save the listener callback
         self.subscriptions[topic][subscriber.id] = subscriber.receive
-        subscriber.send = self.inject
+        subscriber._send = self.inject
 
     def unsubscribe(self, subscriber_id, topic):
 
@@ -26,7 +26,8 @@ class Engine:
 
         # List all callbacks functions subscribed in event.topic
         if event.topic in self.subscriptions:
-            for callback in self.subscriptions[event.topic].values():
-
-                # Call the function
-                callback(event)
+            for subscriber in self.subscriptions[event.topic]:
+                # Do not send event to itself
+                if event.sender != subscriber:
+                    # Call the function
+                    self.subscriptions[event.topic][subscriber](event)

@@ -6,6 +6,7 @@ class Event:
 
     def __init__(self, timestamp, topic, partition, value):
 
+        self.sender = 0
         self.timestamp = timestamp
         self.topic = topic
         self.partition = partition

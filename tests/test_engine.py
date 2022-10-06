@@ -7,6 +7,8 @@ from src.event_processing.event import Event
 def test_subscription():
 
     class Client(Subscriber):
+        def __init__(self):
+            self.last = Event('', '', '', '')
 
         def receive(self, event):
             self.last = event
@@ -19,7 +21,7 @@ def test_subscription():
     engine.subscribe(client, 'a')
     client.send(Event('t', 'a', 'd', 'v1'))
 
-    assert client.last.value == 'v1'
+    assert client.last.value != 'v1'
 
     # Case 2: Second event
 
