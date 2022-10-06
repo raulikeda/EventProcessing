@@ -3,14 +3,15 @@ class Engine:
     def __init__(self):
         self.subscriptions = {}
 
-    def subscribe(self, subscriber_id, topic, receive_callback):
+    def subscribe(self, subscriber, topic):
 
         # If it is a new topic
         if topic not in self.subscriptions:
             self.subscriptions[topic] = {}
 
         # Save the listener callback
-        self.subscriptions[topic][subscriber_id] = receive_callback
+        self.subscriptions[topic][subscriber.id] = subscriber.receive
+        subscriber.send = self.inject
 
     def unsubscribe(self, subscriber_id, topic):
 

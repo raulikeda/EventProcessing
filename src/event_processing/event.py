@@ -1,6 +1,4 @@
 from datetime import datetime
-from tkinter import SEL_FIRST
-
 
 class Event:
 

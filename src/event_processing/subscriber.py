@@ -11,5 +11,8 @@ class Subscriber:
         instance.id = Subscriber.get_id()
         return instance
 
+    def send(self, event):
+        pass
+
     def receive(self, event):
         pass

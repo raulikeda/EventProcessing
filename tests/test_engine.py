@@ -16,8 +16,8 @@ def test_subscription():
 
     # Case 1: Normal flow
 
-    engine.subscribe(client.id, 'a', client.receive)
-    engine.inject(Event('t', 'a', 'd', 'v1'))
+    engine.subscribe(client, 'a')
+    client.send(Event('t', 'a', 'd', 'v1'))
 
     assert client.last.value == 'v1'
 
@@ -39,8 +39,10 @@ def test_subscription():
 
     # Case 5: Subscribe again
 
-    engine.subscribe(1, 'c', client.receive)
+    engine.subscribe(client, 'c')
     engine.inject(Event('t', 'a', 'd', 'v5'))
     engine.inject(Event('t', 'c', 'd', 'v6'))
 
     assert client.last.value == 'v6'
+
+test_subscription
