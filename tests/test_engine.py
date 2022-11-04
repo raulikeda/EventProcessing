@@ -19,31 +19,31 @@ def test_subscription():
     # Case 1: Normal flow
 
     engine.subscribe(client, 'a')
-    client.send(Event('t', 'a', 'd', 'v1'))
+    client.send(Event('a', 'd', 'v1', 't'))
 
     assert client.last.value != 'v1'
 
     # Case 2: Second event
 
-    engine.inject(Event('t', 'a', 'd', 'v2'))
+    engine.inject(Event('a', 'd', 'v2'))
     assert client.last.value == 'v2'
 
     # Case 3: Another topic
 
-    engine.inject(Event('t', 'b', 'd', 'v3'))
+    engine.inject(Event('b', 'd', 'v3', 't'))
     assert client.last.value == 'v2'
 
     # Case 4: Unsubscribe
 
     engine.unsubscribe(1, 'a')
-    engine.inject(Event('t', 'a', 'd', 'v4'))
+    engine.inject(Event('a', 'd', 'v4', 't'))
     assert client.last.value == 'v2'
 
     # Case 5: Subscribe again
 
     engine.subscribe(client, 'c')
-    engine.inject(Event('t', 'a', 'd', 'v5'))
-    engine.inject(Event('t', 'c', 'd', 'v6'))
+    engine.inject(Event('a', 'd', 'v5', 't'))
+    engine.inject(Event('c', 'd', 'v6', 't'))
 
     assert client.last.value == 'v6'
 

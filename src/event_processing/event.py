@@ -4,7 +4,7 @@ class Event:
 
     from datetime import datetime
 
-    def __init__(self, timestamp, topic, partition, value):
+    def __init__(self, topic, partition, value, timestamp=datetime.now()):
 
         self.sender = 0
         self.timestamp = timestamp

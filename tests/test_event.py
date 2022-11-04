@@ -4,7 +4,7 @@ from src.event_processing.event import Event
 
 def test_constructor():
     now = datetime.now
-    event = Event(now, 'a', 'b', 1)
+    event = Event('a', 'b', 1, now)
 
     assert event.timestamp == now
     assert event.topic == 'a'
