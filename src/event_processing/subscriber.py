@@ -1,3 +1,5 @@
+from src.event_processing.event import Event
+
 class Subscriber:
     
     _id = 0
@@ -11,12 +13,12 @@ class Subscriber:
         instance.id = Subscriber.get_id()
         return instance
 
-    def _send(self, event):
+    def _send(self, event: Event):
         pass
 
-    def send(self, event):
+    def send(self, event: Event):
         event.sender = self.id
         self._send(event)
 
-    def receive(self, event):
+    def receive(self, event: Event):
         pass

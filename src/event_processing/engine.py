@@ -1,7 +1,14 @@
+# TODO: Engine must finish all delivery before processing new events
+
+from threading import Thread
+from queue import Queue
+
 class Engine:
 
     def __init__(self):
         self.subscriptions = {}
+        self.events = Queue()
+        self.lock = False
 
     def subscribe(self, subscriber, topic):
 
@@ -24,10 +31,28 @@ class Engine:
 
     def inject(self, event):
 
-        # List all callbacks functions subscribed in event.topic
-        if event.topic in self.subscriptions:
-            for subscriber in self.subscriptions[event.topic]:
-                # Do not send event to itself
-                if event.sender != subscriber:
-                    # Call the function
-                    self.subscriptions[event.topic][subscriber](event)
+        self.events.put(event)
+
+        # if consume() is not running already
+        if not self.lock:
+            self.consume()
+
+    # Single threaded because it is designed to be simple
+    # It should only guarantee the order
+    def consume(self):
+
+        self.lock = True
+
+        while not self.events.empty():
+
+            event = self.events.get()
+
+            # List all callbacks functions subscribed in event.topic
+            if event.topic in self.subscriptions:
+                for subscriber in self.subscriptions[event.topic]:
+                    # Do not send event to itself
+                    if event.sender != subscriber:
+                        # Call the function
+                        self.subscriptions[event.topic][subscriber](event)
+
+        self.lock = False

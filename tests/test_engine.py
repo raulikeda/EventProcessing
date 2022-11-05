@@ -12,6 +12,8 @@ def test_subscription():
 
         def receive(self, event):
             self.last = event
+            if event.topic == 'c':
+                self.send(Event('a','d','v1'))
 
     client = Client()
     engine = Engine()
