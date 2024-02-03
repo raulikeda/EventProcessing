@@ -1,10 +1,8 @@
-# TODO: Engine must finish all delivery before processing new events
-
 from threading import Thread
 from queue import Queue
 
-class Engine:
 
+class Engine:
     def __init__(self):
         self.subscriptions = {}
         self.events = Queue()
@@ -31,13 +29,14 @@ class Engine:
 
     def inject(self, event):
 
+        # Put event into the queue
         self.events.put(event)
 
-        # if consume() is not running already
+        # If consume() is not running already
         if not self.lock:
             self.consume()
 
-    # Single threaded because it is designed to be simple
+    # Single threaded because it is designed to be deterministic
     # It should only guarantee the order
     def consume(self):
 
