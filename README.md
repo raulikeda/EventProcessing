@@ -18,6 +18,38 @@ pip install event_processing
 ## Usage
 Quick start guide and examples on how to subscribe to events, publish them, and handle them in your application.
 
+### Creating an Engine
+```python
+# Create an engine for event handling
+engine = Engine()
+```
+
+### Subscribing to an Event
+
+```python
+# Create a subscriber and subscribe to a topic
+subscriber = Subscriber()
+engine.subscribe(subscriber, "topic_name")
+```
+
+### Publishing an Event
+
+```python
+# Publish an event to a topic
+event = Event(topic="topic_name", partition=1, value="Hello, World!")
+engine.inject(event)
+# Or with the subscriber itself
+subscriber.send(event)
+```
+
+### Handling an Event
+Implement the receive method in your Subscriber class.
+
+```python
+def receive(self, event: Event):
+    print(f"Received event: {event.value}")
+```
+
 ## Contributing
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
 
