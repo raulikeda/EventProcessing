@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="event-processing",
-    version="0.0.9",
+    version="0.0.10",
     author="Raul Ikeda",
     description="Simple Event Processing Library",
     long_description=long_description,
@@ -23,9 +23,9 @@ setuptools.setup(
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.6",
-    license='MIT',
+    license="MIT",
     install_requires=[],
-    setup_requires=['pytest-runner'],
-    tests_require=['pytest'],
-    test_suite='tests',
+    setup_requires=["pytest-runner"],
+    tests_require=["pytest"],
+    test_suite="tests",
 )
