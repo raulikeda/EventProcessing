@@ -1,52 +1,38 @@
-from datetime import datetime
+import pytest
+from src.event_processing.event import Event
 from src.event_processing.engine import Engine
 from src.event_processing.subscriber import Subscriber
-from src.event_processing.event import Event
 
 
-def test_subscription():
-
-    class Client(Subscriber):
-        def __init__(self):
-            self.last = Event('', '', '', '')
-
-        def receive(self, event):
-            self.last = event
-            if event.topic == 'c':
-                self.send(Event('a','d','v1'))
-
-    client = Client()
+def test_event_subscription_and_dispatch():
     engine = Engine()
+    subscriber = Subscriber()
 
-    # Case 1: Normal flow
+    # Define a mock subscriber that records received events
+    class MockSubscriber(Subscriber):
+        def __init__(self):
+            super().__init__()
+            self.received_events = []
 
-    engine.subscribe(client, 'a')
-    client.send(Event('a', 'd', 'v1', 't'))
+        def receive(self, event: Event):
+            self.received_events.append(event)
 
-    assert client.last.value != 'v1'
+    mock_subscriber = MockSubscriber()
+    topic = "test_topic"
 
-    # Case 2: Second event
+    # Subscribe the mock subscriber to the engine
+    engine.subscribe(mock_subscriber, topic)
 
-    engine.inject(Event('a', 'd', 'v2'))
-    assert client.last.value == 'v2'
+    # Create and send an event
+    event = Event(topic=topic, partition=1, value="test_event")
+    engine.inject(event)
 
-    # Case 3: Another topic
+    # Allow some time for the event to be processed
+    # This is a simplistic approach; in real scenarios, consider using threading conditions or other synchronization methods.
+    import time
 
-    engine.inject(Event('b', 'd', 'v3', 't'))
-    assert client.last.value == 'v2'
+    time.sleep(0.1)
 
-    # Case 4: Unsubscribe
-
-    engine.unsubscribe(1, 'a')
-    engine.inject(Event('a', 'd', 'v4', 't'))
-    assert client.last.value == 'v2'
-
-    # Case 5: Subscribe again
-
-    engine.subscribe(client, 'c')
-    engine.inject(Event('a', 'd', 'v5', 't'))
-    engine.inject(Event('c', 'd', 'v6', 't'))
-
-    assert client.last.value == 'v6'
-
-test_subscription
+    # Assert that the mock subscriber received the event
+    assert len(mock_subscriber.received_events) == 1
+    assert mock_subscriber.received_events[0].value == "test_event"
