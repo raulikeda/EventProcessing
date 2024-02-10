@@ -20,14 +20,14 @@ class Event:
     def __init__(
         self,
         topic: str,
-        partition: int,
+        partition: str,
         value: any,
         timestamp: datetime = datetime.now(),
     ) -> None:
         self.sender = 0  # type: int
         self.timestamp = timestamp  # type: datetime
         self.topic = topic  # type: str
-        self.partition = partition  # type: int
+        self.partition = partition  # type: str
         self.value = value  # type: any
 
     def __repr__(self) -> str:

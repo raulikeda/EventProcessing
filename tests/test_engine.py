@@ -19,12 +19,13 @@ def test_event_subscription_and_dispatch():
 
     mock_subscriber = MockSubscriber()
     topic = "test_topic"
+    partition = "test_partition"
 
     # Subscribe the mock subscriber to the engine
     engine.subscribe(mock_subscriber, topic)
 
     # Create and send an event
-    event = Event(topic=topic, partition=1, value="test_event")
+    event = Event(topic=topic, partition=partition, value="test_event")
     engine.inject(event)
 
     # Allow some time for the event to be processed

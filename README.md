@@ -36,7 +36,7 @@ engine.subscribe(subscriber, "topic_name")
 
 ```python
 # Publish an event to a topic
-event = Event(topic="topic_name", partition=1, value="Hello, World!")
+event = Event(topic="topic_name", partition="partition_name", value="Hello, World!")
 engine.inject(event)
 # Or with the subscriber itself
 subscriber.send(event)
