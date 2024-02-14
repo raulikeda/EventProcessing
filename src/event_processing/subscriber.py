@@ -1,4 +1,4 @@
-from src.event_processing.event import Event
+from event_processing.event import Event
 
 
 class Subscriber:
